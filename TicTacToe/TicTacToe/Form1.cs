@@ -18,7 +18,6 @@ namespace TicTacToe
         private void button1_Click(object sender, EventArgs e)
         {
             pocitadlo++;
-
             if ((pocitadlo % 2) == 0)
             {
                 button1.Text = "X";
@@ -35,7 +34,7 @@ namespace TicTacToe
 
             //Vyhodnotenie
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
 
         }
 
@@ -53,7 +52,7 @@ namespace TicTacToe
             Pole[0, 1] = Word;
 
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -70,7 +69,7 @@ namespace TicTacToe
             Pole[0, 2] = Word;
 
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -87,7 +86,7 @@ namespace TicTacToe
             Pole[1, 2] = Word;
 
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -104,7 +103,7 @@ namespace TicTacToe
             Pole[1, 1] = Word;
 
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -121,7 +120,7 @@ namespace TicTacToe
             Pole[1, 0] = Word;
 
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -138,7 +137,7 @@ namespace TicTacToe
             Pole[2, 2] = Word;
 
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -155,7 +154,7 @@ namespace TicTacToe
             Pole[2, 1] = Word;
 
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -172,13 +171,12 @@ namespace TicTacToe
             Pole[2, 0] = Word;
 
             ZistenieFunkcie(Pole, out Vyhodnot, out Vyhodnot2, out Vyhodnot3);
-            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, Pole);
+            Vyhodnotenie(Vyhodnot, Vyhodnot2, Vyhodnot3, this);
         }
 
         private void Clear_Click(object sender, EventArgs e)
         {
             //Application.Restart();     //Tiež možnosť
-
             pocitadlo = 0;
 
             //Vymazanie textu + zapnutie tlačidiel
@@ -206,10 +204,10 @@ namespace TicTacToe
             Vyhodnot = false;
             Vyhodnot2 = false;
             Vyhodnot3 = false;
-
-            //riadky
+         
             if ((Vyhodnot != true) || (Vyhodnot2 != true))
             {
+                //riadky
                 for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 1; j++)
@@ -267,32 +265,41 @@ namespace TicTacToe
             }
 
             //Remíza
-            if(pocitadlo==9)
+            if (pocitadlo == 9) 
             {
                 if ((Vyhodnot == false) && (Vyhodnot2 == false)) 
-                 {
+                {
                     Vyhodnot3 = true;
                 }
-            }
-                                     
+            }                                    
         }
 
-        static void Vyhodnotenie(bool Vyhodnot, bool Vyhodnot2, bool Vyhodnot3, string[,] Pole)
+        static void Vyhodnotenie(bool Vyhodnot, bool Vyhodnot2, bool Vyhodnot3, Control myButtons)
         {
-
             if (Vyhodnot == true)
             {
                 MessageBox.Show("Vyhral hráč X");
+                VypnutieTlacidiel(myButtons);
             }
 
             if (Vyhodnot2 == true)
             {
                 MessageBox.Show("Vyhral hráč O");
+                VypnutieTlacidiel(myButtons);
             }
 
             if (Vyhodnot3 == true)
             {
-                MessageBox.Show("Remíza");           
+                MessageBox.Show("Remíza");
+                VypnutieTlacidiel(myButtons);
+            }           
+        }
+
+        public static void VypnutieTlacidiel(Control myButtons)
+        {
+            for (int i = 1; i < 10; i++)
+            {
+                myButtons.Controls["button" + i].Enabled = false;
             }           
         }
     }
